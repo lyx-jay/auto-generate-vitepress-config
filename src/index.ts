@@ -2,13 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+
+
 /**
  * 匹配md一级标题
  * @param {String} filePath 文件路径
  * @returns 
  */
-async function getMdH1Title(filePath) {
-  let text;
+const getMdH1Title:getMdH1TitleTypes = async (filePath) => {
+  let text:string;
   const fileStream = fs.createReadStream(filePath);
   const rl = readline.createInterface({
     input: fileStream,
@@ -27,19 +29,18 @@ async function getMdH1Title(filePath) {
 }
 
 
-
 /**
  * 
  * @param {Object} config sidebar为空的config对象
  * @param {String} rootfolderPath 存放文章的最外层目录
  * @returns Object
  */
-const auto_generate_config = function (config, rootfolderPath) {
+const auto_generate_config:AutoGenerateConfigTypes = function (config, rootfolderPath) {
 
   rootfolderPath = __dirname.replace(/.vitepress/, '') + rootfolderPath;
   const newConfig = JSON.parse(JSON.stringify(config));
   const fileFolderNames = fs.readdirSync(rootfolderPath);
-  const folderNames = [];  // 所有文件夹名称
+  const folderNames:string[] = [];  // 所有文件夹名称
 
   // 获取根目录下的所有文件夹名称
   fileFolderNames.forEach(item => {
@@ -73,7 +74,7 @@ const auto_generate_config = function (config, rootfolderPath) {
       // 将文件名和其路径添加到sidebar对应的items中
       newConfig.themeConfig.sidebar.forEach(async sidebar => {
         if (sidebar.text === folder) {
-          const title = await getMdH1Title(filePath);
+          const title = await getMdH1Title(filePath, name);
           sidebar.items.push({
             text: title || name.replace(/(.md)$/, ''),
             link: filePath.replace(/.*(?=\/handbook)/, '')
