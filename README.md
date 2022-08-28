@@ -16,3 +16,31 @@ auto-generate-vitepress-config can help you automaticlly generate right configur
 All you need to do is write posts.
 
 ## How to use ?
+
+1. download the index.js script and put it in the ./vitepress
+2. Import using commonJS in ./vitepress/config.js
+3. Pass the original config object into the function
+
+```js
+const auto_generate_config = require('./auto-generate-config');
+
+// The outermost directory where the article is stored
+const ROOTFOLDERPATH = 'handbook';
+
+const config = {
+  title: "Vitepress",
+  description: "Write My Mind",
+  base: "/Blog",
+  themeConfig: {
+    sidebar: []
+  }
+}
+
+module.exports = auto_generate_config(config, ROOTFOLDERPATH);
+```
+
+## Note
+---
+Currently, this is a simple version, which only meet basic demand.After that, I will constantly improve its functionality and release it as an npm package。
+
+If it helps you, please help me star.
