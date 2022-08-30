@@ -76,7 +76,6 @@ const auto_generate_config = function (config, rootfolderPath) {
             text: title || name.replace(/(.md)$/, ''),
             link: filePath.replace(/.*(?=\/handbook)/, '')
           });
-          console.log(sidebar)
           return;
         }
       })
