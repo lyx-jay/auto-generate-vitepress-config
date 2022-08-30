@@ -34,7 +34,7 @@ async function getMdH1Title(filePath) {
  */
 const auto_generate_config = function (config, rootfolderPath) {
 
-  rootfolderPath = __dirname.replace(/.vitepress/, '') + rootfolderPath;
+  rootfolderPath = __dirname.replace(/node_modules\/.*/, 'docs/') + rootfolderPath;
   const newConfig = JSON.parse(JSON.stringify(config));
   const fileFolderNames = fs.readdirSync(rootfolderPath);
   const folderNames = [];  // all file folder names

@@ -17,11 +17,24 @@ All you need to do is write posts.
 
 ## How to use ?
 
-1. download the index.js script and put it in the ./vitepress
-2. Import it using commonJS in ./vitepress/config.js
-3. Pass the original config object into the function
+1. `npm i auto-generate-vitepress-config`
+2. add `const auto_generate_config = require('auto-generate-vitepress-config');` in .vitepress/config.js
+3. delete the content of original config sidebar
+4. Pass the config object into the function
+
+```
+Vitepress Directory Structure
+- Blog
+  | - docs
+  | | - .vitepress
+  | | - handbook  // root path of articles
+  | - - - | - react
+  | - - - | - vue
+  | - node_modules
+```
 
 ```js
+// exmaple
 const auto_generate_config = require('./auto-generate-config');
 
 // The outermost directory where the article is stored
@@ -43,4 +56,4 @@ module.exports = auto_generate_config(config, ROOTFOLDERPATH);
 ---
 Currently, this is a simple version, which only meet basic demand.After that, I will constantly improve its functionality and release it as an npm package。
 
-If it helps you, please help me star.
+If it is helpful to you, please help me star.
