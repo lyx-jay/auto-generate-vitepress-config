@@ -1,0 +1,24 @@
+{
+  "name": "auto-generate-vitepress-config",
+  "version": "0.1.0",
+  "description": " automatically generate your vitepress config",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyx-jay/auto-generate-vitepress-config.git"
+  },
+  "keywords": [
+    "vitepress",
+    "automaticlly",
+    "config"
+  ],
+  "author": "lyx-jay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lyx-jay/auto-generate-vitepress-config/issues"
+  },
+  "homepage": "https://github.com/lyx-jay/auto-generate-vitepress-config#readme"
+}

@@ -18,7 +18,7 @@ All you need to do is write posts.
 ## How to use ?
 
 1. download the index.js script and put it in the ./vitepress
-2. Import using commonJS in ./vitepress/config.js
+2. Import it using commonJS in ./vitepress/config.js
 3. Pass the original config object into the function
 
 ```js

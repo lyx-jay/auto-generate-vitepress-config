@@ -3,8 +3,8 @@ const path = require('path');
 const readline = require('readline');
 
 /**
- * 匹配md一级标题
- * @param {String} filePath 文件路径
+ * match the first-level title
+ * @param {String} filePath file path
  * @returns 
  */
 async function getMdH1Title(filePath) {
@@ -18,20 +18,18 @@ async function getMdH1Title(filePath) {
   for await (const line of rl) {
     if (!line) continue;
     text = line.replace(/^# (.*)/gim, `$1`);
-    // 当没有匹配到一级标题时，返回空字符串
+    // When no first-level title is matched, return ''
     if (text === line) return '';
     return text;
   }
-  // 当文件中没有内容时，返回空字符串
+  // Returns '' when there is no content in the file
   return '';
 }
 
-
-
 /**
  * 
- * @param {Object} config sidebar为空的config对象
- * @param {String} rootfolderPath 存放文章的最外层目录
+ * @param {Object} config config object with empty sidebar
+ * @param {String} rootfolderPath The root directory where articles are stored
  * @returns Object
  */
 const auto_generate_config = function (config, rootfolderPath) {
@@ -39,9 +37,9 @@ const auto_generate_config = function (config, rootfolderPath) {
   rootfolderPath = __dirname.replace(/.vitepress/, '') + rootfolderPath;
   const newConfig = JSON.parse(JSON.stringify(config));
   const fileFolderNames = fs.readdirSync(rootfolderPath);
-  const folderNames = [];  // 所有文件夹名称
+  const folderNames = [];  // all file folder names
 
-  // 获取根目录下的所有文件夹名称
+  // get all file folder names 
   fileFolderNames.forEach(item => {
     const location = path.join(rootfolderPath, item);
     const info = fs.statSync(location);
@@ -50,7 +48,7 @@ const auto_generate_config = function (config, rootfolderPath) {
     }
   })
 
-  // 为每一个文件夹创建sidebar
+  // Create a sidebar object for each folder
   folderNames.forEach(folder => {
     newConfig.themeConfig.sidebar.push(
       {
@@ -63,14 +61,14 @@ const auto_generate_config = function (config, rootfolderPath) {
   })
 
   folderNames.forEach(folder => {
-    // 获取子文件夹的路径
+    // Get the path of the subfolder
     const folderPath = rootfolderPath + '/' + folder;
-    // 检测当前子目录下的所有文件
+    // Detect all files in the current subdirectory
     const files = fs.readdirSync(folderPath);
     files.forEach(file => {
       const name = file;
       const filePath = folderPath + '/' + file;
-      // 将文件名和其路径添加到sidebar对应的items中
+      // Add the file name and path to the items corresponding to the sidebar
       newConfig.themeConfig.sidebar.forEach(async sidebar => {
         if (sidebar.text === folder) {
           const title = await getMdH1Title(filePath);
@@ -87,7 +85,5 @@ const auto_generate_config = function (config, rootfolderPath) {
 
   return newConfig;
 }
-
-
 
 module.exports = auto_generate_config;
