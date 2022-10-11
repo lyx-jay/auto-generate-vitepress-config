@@ -1,6 +1,6 @@
 {
   "name": "auto-generate-vitepress-config",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": " automatically generate your vitepress config",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/lyx-jay/auto-generate-vitepress-config/issues"
   },
-  "homepage": "https://github.com/lyx-jay/auto-generate-vitepress-config#readme"
+  "homepage": "https://github.com/lyx-jay/auto-generate-vitepress-config#readme",
+  "dependencies": {
+    "n-readlines": "^1.0.1"
+  }
 }

@@ -1,88 +1,102 @@
 const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const {resolve} = require('path')
+const lineByLine = require('n-readlines');
 
+const dirname = resolve(process.cwd(), 'docs');
+
+console.log(process.cwd())
 /**
- * match the first-level title
- * @param {String} filePath file path
+ * 获取文件名称
+ * @param path 文件路径
  * @returns 
  */
-async function getMdH1Title(filePath) {
-  let text;
-  const fileStream = fs.createReadStream(filePath);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity
-  });
-
-  for await (const line of rl) {
-    if (!line) continue;
-    text = line.replace(/^# (.*)/gim, `$1`);
-    // When no first-level title is matched, return ''
-    if (text === line) return '';
-    return text;
+const getFileName = (path) => {
+  const absolutePath = resolve(dirname, path);
+  let text = '';
+  const liner = new lineByLine(absolutePath);
+  let line = null;
+  while (line = liner.next()) {
+    text = line.toString().replace(/^# (.*$)/gim, '$1');
+    if (text) break;
   }
-  // Returns '' when there is no content in the file
-  return '';
+  if (text.includes('#')) {
+    const res = path.match(/(\w+).md$/g);
+    return res[0].replace('.md', '')
+  }
+  return text;
+}
+
+
+
+
+/**
+ * 生成一个新的config
+ * @param config vitepress 配置对象
+ */
+const generateSidebar = (config) => {
+  try {
+    const newConfig = JSON.parse(JSON.stringify(config));
+    return newConfig
+  } catch (error) {
+    console.error('errors occue while deeping copy config ' + error)
+  }
 }
 
 /**
- * 
- * @param {Object} config config object with empty sidebar
- * @param {String} rootfolderPath The root directory where articles are stored
- * @returns Object
+ * 生成文件夹对应的 sidebar 信息
  */
-const auto_generate_config = function (config, rootfolderPath) {
+const getAllFilesInOneFolder = (folderPath) => {
+  const absolutePath = resolve(dirname, folderPath);
+  const parentFolderName = folderPath.match(/(?<=\/)\w+$/g)[0];
+  const fileNames = fs.readdirSync(absolutePath);
+  const articles = fileNames.map(fileName => {
+    const name = getFileName(folderPath + '/' + fileName);
+    return {
+      text: name,
+      link: '/' + folderPath + '/' + fileName
+    }
+  });
+  return {
+    text: parentFolderName,
+    items: articles
+  }
+}
 
-  rootfolderPath = __dirname.replace(/node_modules\/.*/, 'docs/') + rootfolderPath;
-  const newConfig = JSON.parse(JSON.stringify(config));
-  const fileFolderNames = fs.readdirSync(rootfolderPath);
-  const folderNames = [];  // all file folder names
 
-  // get all file folder names 
-  fileFolderNames.forEach(item => {
-    const location = path.join(rootfolderPath, item);
+/**
+ * 获得根目录下的所有文件夹
+ * @param root 文章根目录
+ * @returns 
+ */
+const getAllFolderInRoot = (root) => {
+  const folderPaths= [];
+  fs.readdirSync(resolve(dirname, root)).forEach(item => {
+    const location = resolve(dirname, root + '/' + item)
     const info = fs.statSync(location);
     if (info.isDirectory()) {
-      folderNames.push(item);
+      folderPaths.push(root + '/' + item);
     }
   })
+  return folderPaths
+}
 
-  // Create a sidebar object for each folder
-  folderNames.forEach(folder => {
-    newConfig.themeConfig.sidebar.push(
-      {
-        text: folder,
-        collapsed: true,
-        collapsible: true,
-        items: []
-      }
-    )
+
+/**
+ * 根据文章目录自动生成配置文件
+ * @param defaultConfig 默认的vitepress配置
+ * @param root 文章根目录
+ * @returns 
+ */
+const autoGenerateConfig = (defaultConfig, root) => {
+  const newConfig = generateSidebar(defaultConfig);
+  const sidebar = newConfig.themeConfig.sidebar;
+  const childFolderPaths = getAllFolderInRoot(root);
+  console.log('childFolderPaths', childFolderPaths)
+  childFolderPaths.forEach(path => {
+    const item = getAllFilesInOneFolder(path);
+    sidebar.push(item)
   })
-
-  folderNames.forEach(folder => {
-    // Get the path of the subfolder
-    const folderPath = rootfolderPath + '/' + folder;
-    // Detect all files in the current subdirectory
-    const files = fs.readdirSync(folderPath);
-    files.forEach(file => {
-      const name = file;
-      const filePath = folderPath + '/' + file;
-      // Add the file name and path to the items corresponding to the sidebar
-      newConfig.themeConfig.sidebar.forEach(async sidebar => {
-        if (sidebar.text === folder) {
-          const title = await getMdH1Title(filePath);
-          sidebar.items.push({
-            text: title || name.replace(/(.md)$/, ''),
-            link: filePath.replace(/.*(?=\/handbook)/, '')
-          });
-          return;
-        }
-      })
-    })
-  });
-
   return newConfig;
 }
 
-module.exports = auto_generate_config;
+module.exports = autoGenerateConfig
