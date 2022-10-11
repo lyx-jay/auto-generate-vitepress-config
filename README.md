@@ -35,7 +35,7 @@ Vitepress Directory Structure
 
 ```js
 // exmaple
-const auto_generate_config = require('./auto-generate-config');
+const auto_generate_config = require('auto-generate-vitepress-config');
 
 // The outermost directory where the article is stored
 const ROOTFOLDERPATH = 'handbook';
