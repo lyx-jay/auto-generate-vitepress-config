@@ -1,5 +1,5 @@
 const autoGenerateConfig = require('./src/basicSidebar')
 
-export {
+module.exports = {
   autoGenerateConfig
 }

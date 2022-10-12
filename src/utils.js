@@ -78,7 +78,7 @@ const getFileName = (path) => {
   return text;
 }
 
-export {
+module.exports =  {
   getAllFilesInOneFolder,
   getAllFolderInRoot,
   generateSidebar
