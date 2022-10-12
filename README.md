@@ -18,7 +18,7 @@ All you need to do is write posts.
 ## How to use ?
 
 1. `npm i auto-generate-vitepress-config`
-2. add `const auto_generate_config = require('auto-generate-vitepress-config');` in .vitepress/config.js
+2. add `{ autoGenerateConfig } = require('auto-generate-vitepress-config');` in .vitepress/config.js
 3. delete the content of original config sidebar
 4. Pass the config object into the function
 
@@ -35,7 +35,7 @@ Vitepress Directory Structure
 
 ```js
 // exmaple
-const auto_generate_config = require('auto-generate-vitepress-config');
+const { autoGenerateConfig }= require('auto-generate-vitepress-config');
 
 // The outermost directory where the article is stored
 const ROOTFOLDERPATH = 'handbook';
@@ -49,7 +49,7 @@ const config = {
   }
 }
 
-module.exports = auto_generate_config(config, ROOTFOLDERPATH);
+module.exports = autoGenerateConfig(config, ROOTFOLDERPATH);
 ```
 
 ## Note
