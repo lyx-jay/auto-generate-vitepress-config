@@ -57,3 +57,5 @@ module.exports = autoGenerateConfig(config, ROOTFOLDERPATH);
 Currently, this is a simple version, which only meet basic demand.After that, I will constantly improve its functionality and release it as an npm package。
 
 If it is helpful to you, please help me star.
+
+More abilities is coming...
