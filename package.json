@@ -1,6 +1,6 @@
 {
   "name": "auto-generate-vitepress-config",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": " automatically generate your vitepress config",
   "main": "index.js",
   "scripts": {
