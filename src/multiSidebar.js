@@ -1,5 +1,11 @@
 
-const {getAllFilesInOneFolder, getAllFolderInRoot, getAllFolderInRootInMultiMode, generateNav } = require('./utils')
+const {
+  getAllFilesInOneFolder,
+  getAllFolderInRoot,
+  getAllFolderInRootInMultiMode,
+  generateNav,
+  generateNewConfig
+} = require('./utils')
 
 /**
  * 

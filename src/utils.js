@@ -99,7 +99,7 @@ const generateNav = (folders) => {
  */
 const getAllFolderInRootInMultiMode = () => {
   const folderPaths = [];
-  fs.readdirSync(root).forEach(item => {
+  fs.readdirSync('docs').forEach(item => {
     const location = resolve(process.cwd(), 'docs' + '/' + item)
     const info = fs.statSync(location);
     if (info.isDirectory() && !location.includes('.vitepress')) {
