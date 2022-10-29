@@ -1,5 +1,5 @@
 
-const {getAllFilesInOneFolder, getAllFolderInRoot } = require('./utils')
+const {getAllFilesInOneFolder, getAllFolderInRoot, getAllFolderInRootInMultiMode, generateNav } = require('./utils')
 
 /**
  * 
@@ -7,15 +7,15 @@ const {getAllFilesInOneFolder, getAllFolderInRoot } = require('./utils')
  * @param root 相对于根目录下的文件夹路径 docs
  * @returns 
  */
- export default function generateMultiSidebar(config, root) {
+function autoGenerateConfigMulti(config) {
   const newConfig = generateNewConfig(config)
-  const folders = getAllFolderInRootInMultiMode(root)
+  const folders = getAllFolderInRootInMultiMode()
   const sidebar = newConfig.themeConfig.sidebar
   const navs = generateNav(folders)
   newConfig.themeConfig.nav = navs
   navs.forEach((navItem) => {
     const link = navItem.link
-    const path = root + link.replace(/\/$/, '')
+    const path = link.replace(/\//, '')
     const childFolderPaths = getAllFolderInRoot(path)
     sidebar[link] = []
     childFolderPaths.forEach(path => {
@@ -25,3 +25,5 @@ const {getAllFilesInOneFolder, getAllFolderInRoot } = require('./utils')
   })
   return newConfig
 }
+
+module.exports = autoGenerateConfigMulti

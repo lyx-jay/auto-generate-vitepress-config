@@ -1,4 +1,4 @@
-const {getAllFilesInOneFolder, getAllFolderInRoot, generateSidebar} = require('./utils')
+const {getAllFilesInOneFolder, getAllFolderInRoot, generateNewConfig} = require('./utils')
 
 /**
  * 根据文章目录自动生成配置文件
@@ -7,7 +7,7 @@ const {getAllFilesInOneFolder, getAllFolderInRoot, generateSidebar} = require('.
  * @returns 
  */
  const autoGenerateConfig = (defaultConfig, root) => {
-  const newConfig = generateSidebar(defaultConfig);
+  const newConfig = generateNewConfig(defaultConfig);
   const sidebar = newConfig.themeConfig.sidebar;
   const childFolderPaths = getAllFolderInRoot(root);
   childFolderPaths.forEach(path => {

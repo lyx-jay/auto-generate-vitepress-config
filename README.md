@@ -34,7 +34,7 @@ Vitepress Directory Structure
 ```
 
 ```js
-// exmaple
+// basic exmaple only one sidebar
 const { autoGenerateConfig }= require('auto-generate-vitepress-config');
 
 // The outermost directory where the article is stored
@@ -51,6 +51,24 @@ const config = {
 
 module.exports = autoGenerateConfig(config, ROOTFOLDERPATH);
 ```
+
+```js
+// multi sidebar
+const { autoGenerateConfigMulti }= require('auto-generate-vitepress-config');
+
+const config = {
+  title: "Vitepress",
+  description: "Write My Mind",
+  base: "/Blog",
+  themeConfig: {
+    nav: []
+    sidebar: {}
+  }
+}
+
+module.exports = autoGenerateConfigMulti(config);
+```
+
 
 ## Note
 ---
