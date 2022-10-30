@@ -22,6 +22,8 @@ All you need to do is write posts.
 3. delete the content of original config sidebar
 4. Pass the config object into the function
 
+### Basic sidebar
+
 ```
 Vitepress Directory Structure
 - Blog
@@ -50,6 +52,32 @@ const config = {
 }
 
 module.exports = autoGenerateConfig(config, ROOTFOLDERPATH);
+```
+
+
+### multi sidebar
+
+```js
+Vitepress Directory Structure
+- Blog
+  | - docs
+  | | - .vitepress
+  | | - react        // Root directory corresponding to each sidebar, which must have a index.md
+  | |  - - | - basic
+  | |            | text1.md
+  | |            | text2.md 
+  | |      | - advance
+  | |            | text1.md
+  | |            | text2.md 
+  | |      | - index.md
+  | | | - vue  
+  | |  - - | - basic
+  | |            | text1.md
+  | |            | text2.md 
+  | |      | - advance
+  | |            | text1.md
+  | |            | text2.md 
+  | |      | - index.md
 ```
 
 ```js
